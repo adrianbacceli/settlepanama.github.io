@@ -1260,7 +1260,7 @@ function ContactWidget({ showPage }) {
             <span>{tx('Call +507 6912-7505')}</span>
           </a>
 
-          <div className="rounded-[10px] border border-white/35 bg-navy/80 px-3 py-2 text-center text-xs text-white shadow-lg backdrop-blur">{tx('We answer until 12:00 AM Panama time')}</div>
+          <div className="flex min-h-11 items-center justify-center whitespace-nowrap rounded-[10px] border border-white/35 bg-navy/80 px-3.5 py-3 text-center text-sm font-extrabold leading-tight text-white shadow-[0_12px_24px_rgba(13,31,45,.16)] backdrop-blur">{tx('We answer until 12:00 AM Panama time')}</div>
         </div>
       )}
 
