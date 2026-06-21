@@ -1020,3 +1020,46 @@ html[data-theme='dark'] .language-option.is-active {
   color: rgb(243, 236, 226) !important;
   background: rgba(225, 130, 89, .22) !important;
 }
+
+
+/* Dark mode location map photo */
+html[data-theme='dark'] .location-map-card {
+  border-color: rgba(243, 236, 226, .14) !important;
+  background-blend-mode: normal;
+  box-shadow: 0 24px 58px rgba(0, 0, 0, .24) !important;
+}
+
+html[data-theme='dark'] .location-map-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: rgba(80, 52, 46, .16);
+  pointer-events: none;
+}
+
+html[data-theme='dark'] .location-map-overlay {
+  z-index: 2;
+  background: rgba(13, 31, 45, .10) !important;
+  backdrop-filter: grayscale(.55) brightness(.90) saturate(.88);
+}
+
+html[data-theme='dark'] .location-map-card > div:not(.location-map-overlay) {
+  position: relative;
+  z-index: 20;
+}
+
+html[data-theme='dark'] .location-learn-button {
+  border-color: rgba(243, 236, 226, .38) !important;
+  background: rgba(243, 236, 226, .88) !important;
+  color: rgb(13, 31, 45) !important;
+  box-shadow:
+    0 14px 30px rgba(0, 0, 0, .22),
+    inset 0 1px 0 rgba(255, 255, 255, .34) !important;
+}
+
+html[data-theme='dark'] .location-learn-button:hover {
+  border-color: rgba(255, 255, 255, .64) !important;
+  background: rgb(255, 255, 255) !important;
+  color: rgb(13, 31, 45) !important;
+}

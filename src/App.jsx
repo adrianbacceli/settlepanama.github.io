@@ -681,18 +681,18 @@ function LocationSection({ showPage }) {
           <p className="max-w-[450px] text-base leading-relaxed text-ink/65">
             {tx('We support practical relocation and settlement needs across key residential areas, beach communities and city neighborhoods.')}
           </p>
-          <button className="mt-3 inline-flex items-center gap-2 rounded-full border border-[rgba(174,160,140,.34)] bg-white/60 px-4 py-3.5 text-sm font-black text-navy shadow-sm transition hover:bg-white/80" type="button" onClick={() => showPage('about-panama')}>
+          <button className="location-learn-button mt-3 inline-flex items-center gap-2 rounded-full border border-[rgba(174,160,140,.34)] bg-white/60 px-4 py-3.5 text-sm font-black text-navy shadow-sm transition hover:bg-white/80" type="button" onClick={() => showPage('about-panama')}>
             {tx('Learn more about Panama')} <ArrowRight size={16} />
           </button>
         </div>
 
         <div
-          className="relative min-h-[500px] overflow-hidden rounded-[34px] border border-[rgba(174,160,140,.22)] bg-cover bg-center shadow-soft"
+          className="location-map-card relative min-h-[500px] overflow-hidden rounded-[34px] border border-[rgba(174,160,140,.22)] bg-cover bg-center shadow-soft"
           style={{
             backgroundImage: `linear-gradient(145deg, rgba(247,245,241,.34), rgba(13,31,45,.08)), url(${assets.mapCard})`
           }}
         >
-          <div className="absolute inset-0 bg-warm/40 backdrop-grayscale" />
+          <div className="location-map-overlay absolute inset-0 bg-warm/40 backdrop-grayscale" />
           <div className="absolute right-[15%] top-[22%] z-20 grid h-[92px] w-[92px] place-items-center rounded-full border border-white/30 bg-navy/90 text-center text-xs font-black text-white shadow-lg backdrop-blur">Panama<br />City</div>
         </div>
       </div>
