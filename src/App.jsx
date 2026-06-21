@@ -33,26 +33,59 @@ const features = [
 
 const packages = [
   {
-    eyebrow: 'Starter',
-    title: 'Consultation',
-    price: 'From $150',
-    text: 'Best for clarity before committing to a full move plan.',
-    items: ['Relocation roadmap', 'Document checklist', 'Area guidance']
+    eyebrow: 'Settle Smart',
+    title: 'Clarity before the move',
+    price: 'Request a consultation',
+    text: 'Get the clarity you need before making the move.',
+    items: [
+      'Personalized relocation consultation',
+      'Residency and visa guidance',
+      'Cost of living insights',
+      'Healthcare and banking information',
+      'Neighborhood recommendations',
+      'Answers to your relocation questions'
+    ],
+    why: 'Get expert guidance and a personalized strategy before making one of life’s biggest decisions.',
+    bestFor: 'Those exploring a move to Panama.',
+    cta: 'Request a Consultation'
   },
   {
-    eyebrow: 'Most requested',
-    title: 'Settle-in package',
-    price: 'Custom',
-    text: 'For residents who want practical support across the full move.',
-    items: ['Paperwork coordination', 'Home setup support', 'Local appointments'],
+    eyebrow: 'Settle Ready',
+    title: 'Your relocation plan',
+    price: 'Start planning',
+    text: 'Build a relocation plan tailored to your goals, timeline, and lifestyle.',
+    items: [
+      'Personalized relocation planning',
+      'House hunting assistance',
+      'Realtor coordination',
+      'Area tours and neighborhood matching',
+      'Move preparation support',
+      'Arrival planning',
+      'Customized relocation roadmap'
+    ],
+    why: 'Turn your relocation goals into a clear, organized plan designed specifically for your move.',
+    bestFor: 'Those preparing to relocate to Panama.',
+    cta: 'Start Planning Your Move',
     featured: true
   },
   {
-    eyebrow: 'Ongoing',
-    title: 'Property support',
-    price: 'Monthly',
-    text: 'For property owners who need a trusted local point of contact.',
-    items: ['Home watch', 'Vendor coordination', 'Maintenance follow-up']
+    eyebrow: 'Settle Easy',
+    title: 'Hands-on local support',
+    price: 'Personalized quote',
+    text: 'Enjoy a fully personalized relocation experience with hands-on local support.',
+    items: [
+      'Airport arrival coordination',
+      'Home setup assistance',
+      'Internet and mobile service setup',
+      'Furniture and household sourcing',
+      'Vehicle assistance',
+      'Move-in coordination',
+      'Local concierge support',
+      'Dedicated relocation coordinator'
+    ],
+    why: 'Arrive in Panama with everything ready, while we manage the details and logistics for a smooth transition.',
+    bestFor: 'Those looking for a seamless, stress-free move.',
+    cta: 'Get a Personalized Quote'
   }
 ];
 
