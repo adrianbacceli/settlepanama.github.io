@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useRef, useState } from 'react';
-import { Menu, Moon, ArrowRight } from 'lucide-react';
+import { Menu, Moon, Sun, ArrowRight } from 'lucide-react';
 import { assets } from './lib/assets.js';
 
 const pages = ['landing', 'about', 'about-panama', 'all-our-services', 'contact', 'templates'];
@@ -368,6 +368,15 @@ function useLanguage() {
   return useContext(LanguageContext);
 }
 
+const ThemeContext = createContext({
+  theme: 'light',
+  toggleTheme: () => {}
+});
+
+function useTheme() {
+  return useContext(ThemeContext);
+}
+
 function LanguageIcon() {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.55" stroke="currentColor" width="22" height="22" aria-hidden="true">
@@ -518,6 +527,7 @@ function Header({ page, showPage }) {
   const [open, setOpen] = useState(false);
   const [languageOpen, setLanguageOpen] = useState(false);
   const { language, setLanguage, tx } = useLanguage();
+  const { theme, toggleTheme } = useTheme();
   const navItems = [
     ['about', 'Why us'],
     ['about-panama', 'About Panama'],
@@ -602,8 +612,14 @@ function Header({ page, showPage }) {
                 </ul>
               )}
             </div>
-            <button className="grid h-8 w-8 place-items-center rounded-full text-navy transition hover:bg-taupe/15 hover:text-gold" type="button" aria-label={tx('Theme')}>
-              <Moon size={17} />
+            <button
+              className="grid h-8 w-8 place-items-center rounded-full text-navy transition hover:bg-taupe/15 hover:text-gold"
+              type="button"
+              aria-label={tx('Theme')}
+              onClick={toggleTheme}
+              title={theme === 'dark' ? 'Light mode' : 'Night mode'}
+            >
+              {theme === 'dark' ? <Sun size={17} /> : <Moon size={17} />}
             </button>
             <button className="text-[13px] font-black text-navy" type="button" onClick={() => go('contact')}>
               {tx('Contact')} <span className="inline-block transition group-hover:translate-x-1">→</span>
@@ -1285,24 +1301,37 @@ export default function App() {
       ? window.localStorage.getItem('settle-panama-language') || 'en'
       : 'en'
   ));
+  const [theme, setTheme] = useState(() => (
+    typeof window !== 'undefined'
+      ? window.localStorage.getItem('settle-panama-theme') || 'light'
+      : 'light'
+  ));
 
   const tx = (value) => translations[language]?.[value] || value;
+  const toggleTheme = () => setTheme((currentTheme) => (currentTheme === 'dark' ? 'light' : 'dark'));
 
   useEffect(() => {
     window.localStorage.setItem('settle-panama-language', language);
     document.documentElement.lang = language;
   }, [language]);
 
+  useEffect(() => {
+    window.localStorage.setItem('settle-panama-theme', theme);
+    document.documentElement.dataset.theme = theme;
+  }, [theme]);
+
   return (
     <LanguageContext.Provider value={{ language, setLanguage, tx }}>
-      <Header page={page} showPage={showPage} />
-      <main className="w-full overflow-hidden">
-        <div key={`${page}-${language}`} className="page-transition">
-          {renderPage(page, showPage, scrollLandingSection)}
-        </div>
-      </main>
-      <Footer showPage={showPage} />
-      <ContactWidget showPage={showPage} />
+      <ThemeContext.Provider value={{ theme, toggleTheme }}>
+        <Header page={page} showPage={showPage} />
+        <main className="w-full overflow-hidden">
+          <div key={`${page}-${language}`} className="page-transition">
+            {renderPage(page, showPage, scrollLandingSection)}
+          </div>
+        </main>
+        <Footer showPage={showPage} />
+        <ContactWidget showPage={showPage} />
+      </ThemeContext.Provider>
     </LanguageContext.Provider>
   );
 }
