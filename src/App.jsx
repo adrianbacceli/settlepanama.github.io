@@ -555,7 +555,7 @@ function Header({ page, showPage }) {
       <header className="w-full px-6 pb-1.5 pt-2">
         <div className={`mx-auto grid min-h-[42px] max-w-site items-center gap-4 lg:grid-cols-[1fr_auto_1fr] ${open ? 'grid-cols-1' : 'grid-cols-[1fr_auto]'}`}>
           <button className="w-fit" type="button" onClick={() => go('landing')} aria-label="Settle Panama landing page">
-            <img className="block w-32 drop-shadow-sm transition hover:opacity-80 md:w-32" src={assets.logo} alt="Settle Panama" />
+            <img className="site-logo block w-32 drop-shadow-sm transition hover:opacity-80 md:w-32" src={assets.logo} alt="Settle Panama" />
           </button>
 
           <button
@@ -656,7 +656,7 @@ function Hero({ showPage, scrollLandingSection }) {
             {tx('Practical relocation, settlement and property support for International Residents who want trusted local hands in Panama.')}
           </p>
           <div className="flex flex-wrap gap-3">
-            <button className="btn bg-sand text-navy hover:bg-white" type="button" onClick={() => scrollLandingSection('location')}>
+            <button className="hero-primary-cta btn bg-sand text-navy hover:bg-white" type="button" onClick={() => scrollLandingSection('location')}>
               {tx('Start your relocation')} <ArrowRight size={16} />
             </button>
             <button className="btn border border-sand/50 bg-white/10 text-white backdrop-blur hover:bg-sand/15" type="button" onClick={() => scrollLandingSection('our-services')}>
@@ -742,6 +742,7 @@ function LivingSection({ showPage }) {
 
 function RelocationSection({ showPage, scrollLandingSection }) {
   const { tx } = useLanguage();
+  const { theme } = useTheme();
   const [hasRelocateBackground, setHasRelocateBackground] = useState(false);
 
   useEffect(() => {
@@ -753,10 +754,12 @@ function RelocationSection({ showPage, scrollLandingSection }) {
 
   return (
     <section
-      className={`section ${hasRelocateBackground ? 'bg-cover bg-center bg-no-repeat' : ''}`}
+      className={`relocation-section section ${hasRelocateBackground ? 'bg-cover bg-center bg-no-repeat' : ''}`}
       id="relocate"
       style={hasRelocateBackground ? {
-        backgroundImage: `linear-gradient(180deg, rgba(247,245,241,.86), rgba(247,245,241,.92)), url(${assets.relocateBg})`
+        backgroundImage: theme === 'dark'
+          ? `linear-gradient(180deg, rgba(13,31,45,.88), rgba(13,31,45,.94)), url(${assets.relocateBg})`
+          : `linear-gradient(180deg, rgba(247,245,241,.86), rgba(247,245,241,.92)), url(${assets.relocateBg})`
       } : undefined}
     >
       <div className="site-view">
@@ -794,7 +797,7 @@ function PreFooter({ showPage }) {
         <h2 className="mb-8 max-w-[720px] text-left text-[clamp(36px,4vw,58px)] font-black leading-tight tracking-[-.055em] text-white">
           {tx('Settle in Panama with local experts.')}
         </h2>
-        <button className="mb-6 inline-flex items-center gap-2 rounded-[10px] border border-white/40 bg-sand px-5 py-3.5 text-sm font-black text-navy transition hover:bg-white hover:shadow-[0_18px_34px_rgba(0,0,0,.18)]" type="button" onClick={() => showPage('contact')}>
+        <button className="prefooter-cta mb-6 inline-flex items-center gap-2 rounded-[10px] border border-white/40 bg-sand px-5 py-3.5 text-sm font-black text-navy transition hover:bg-white hover:shadow-[0_18px_34px_rgba(0,0,0,.18)]" type="button" onClick={() => showPage('contact')}>
           {tx('Schedule a consultation')} <ArrowRight size={16} />
         </button>
         <p className="m-0 max-w-[820px] text-[15px] text-white/75">
@@ -1123,14 +1126,17 @@ function LandingInPanamaPage({ showPage }) {
 
 function ContactPage() {
   const { tx } = useLanguage();
+  const { theme } = useTheme();
 
   return (
-    <section className="min-h-[calc(100vh-92px)] bg-[#d8d8d8]">
+    <section className="contact-page min-h-[calc(100vh-92px)] bg-[#d8d8d8]">
       <div className="grid min-h-[calc(100vh-92px)] lg:grid-cols-2">
         <div
           className="min-h-[360px] bg-cover bg-center lg:min-h-[calc(100vh-92px)]"
           style={{
-            backgroundImage: `linear-gradient(90deg, rgba(247,245,241,.62), rgba(247,245,241,.10)), url(${assets.contact})`
+            backgroundImage: theme === 'dark'
+              ? `linear-gradient(90deg, rgba(13,31,45,.74), rgba(13,31,45,.18)), url(${assets.contact})`
+              : `linear-gradient(90deg, rgba(247,245,241,.62), rgba(247,245,241,.10)), url(${assets.contact})`
           }}
           aria-label={tx('Panama residential skyline')}
         />
