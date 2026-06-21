@@ -1153,3 +1153,54 @@ html[data-theme='dark'] .safeguard-credit img {
 .footer-utility-row .safeguard-credit:hover img {
   opacity: .95;
 }
+
+
+/* Responsive burger fix while keeping Settle Panama navbar */
+.settle-header {
+  isolation: isolate;
+}
+
+.settle-mobile-menu {
+  transform-origin: top center;
+  animation: settleMobileMenuFade .18s ease both;
+}
+
+@keyframes settleMobileMenuFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+html[data-theme='dark'] .settle-header {
+  background: rgba(13, 31, 45, .92) !important;
+}
+
+html[data-theme='dark'] .settle-burger,
+html[data-theme='dark'] .settle-mobile-menu {
+  border-color: rgba(243, 236, 226, .16) !important;
+  background: rgba(13, 31, 45, .94) !important;
+  box-shadow: 0 18px 42px rgba(0, 0, 0, .34) !important;
+}
+
+html[data-theme='dark'] .settle-mobile-menu button {
+  color: rgba(243, 236, 226, .78) !important;
+}
+
+html[data-theme='dark'] .settle-mobile-menu button:hover {
+  background: rgba(243, 236, 226, .08) !important;
+  color: rgb(243, 236, 226) !important;
+}
+
+html[data-theme='dark'] .settle-mobile-menu button.bg-navy {
+  background: rgb(243, 236, 226) !important;
+  color: rgb(13, 31, 45) !important;
+}
+
+@media (max-width: 1023px) {
+  .settle-header {
+    max-height: none;
+  }
+}

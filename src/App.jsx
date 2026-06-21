@@ -537,6 +537,12 @@ function Header({ page, showPage }) {
     ['contact', 'Contact']
   ];
 
+  const languageItems = [
+    ['en', 'English'],
+    ['es', 'Spanish'],
+    ['fr', 'French']
+  ];
+
   const go = (target) => {
     setOpen(false);
     setLanguageOpen(false);
@@ -549,27 +555,18 @@ function Header({ page, showPage }) {
   };
 
   return (
-    <div className="sticky top-0 z-50 max-h-[108px] w-full bg-warm/90 backdrop-blur-xl">
+    <div className="settle-header sticky top-0 z-50 max-h-none w-full bg-warm/90 backdrop-blur-xl">
       <div className="flex min-h-[26px] items-center justify-center border-b border-[rgba(174,160,140,.22)] px-4 py-1 text-center text-[11px] text-ink/60 before:mx-2 before:h-1.5 before:w-1.5 before:rounded-full before:bg-gold/70 before:content-[''] after:mx-2 after:h-1.5 after:w-1.5 after:rounded-full after:bg-gold/70 after:content-['']">
         {tx('Relocation, settlement and property support for International Residents in Panama.')}
       </div>
 
       <header className="w-full px-6 pb-1.5 pt-2">
-        <div className={`mx-auto grid min-h-[42px] max-w-site items-center gap-4 lg:grid-cols-[1fr_auto_1fr] ${open ? 'grid-cols-1' : 'grid-cols-[1fr_auto]'}`}>
-          <button className="w-fit" type="button" onClick={() => go('landing')} aria-label="Settle Panama landing page">
+        <div className="mx-auto flex min-h-[58px] max-w-site items-center justify-between gap-4">
+          <button className="w-fit shrink-0" type="button" onClick={() => go('landing')} aria-label="Settle Panama landing page">
             <img className="site-logo block w-32 drop-shadow-sm transition hover:opacity-80 md:w-32" src={assets.logo} alt="Settle Panama" />
           </button>
 
-          <button
-            className="grid h-10 w-10 place-items-center justify-self-end rounded-full border border-[rgba(174,160,140,.34)] bg-white/50 text-navy lg:hidden"
-            type="button"
-            onClick={() => setOpen((value) => !value)}
-            aria-label={tx('Open navigation')}
-          >
-            <Menu size={20} />
-          </button>
-
-          <nav className={`${open ? 'flex' : 'hidden'} flex-wrap items-center justify-start gap-3 lg:flex lg:justify-center`}>
+          <nav className="settle-desktop-nav hidden flex-wrap items-center justify-center gap-3 lg:flex">
             {navItems.map(([target, label]) => (
               <button
                 key={target}
@@ -582,25 +579,24 @@ function Header({ page, showPage }) {
             ))}
           </nav>
 
-          <div className={`${open ? 'flex' : 'hidden'} items-center justify-start gap-3 lg:flex lg:justify-end`}>
+          <div className="flex shrink-0 items-center justify-end gap-3">
             <div className="relative">
               <button
                 className="grid h-8 w-8 place-items-center rounded-full text-navy transition hover:bg-taupe/15 hover:text-gold"
                 type="button"
                 aria-label={tx('Language')}
                 aria-expanded={languageOpen}
-                onClick={() => setLanguageOpen((value) => !value)}
+                onClick={() => {
+                  setLanguageOpen((value) => !value);
+                  setOpen(false);
+                }}
               >
                 <LanguageIcon />
               </button>
 
               {languageOpen && (
                 <ul className="language-menu absolute right-0 top-10 z-[70] min-w-[138px] overflow-hidden rounded-xl border border-[rgba(174,160,140,.22)] bg-white py-1 text-sm shadow-[0_18px_42px_rgba(13,31,45,.13)]">
-                  {[
-                    ['en', 'English'],
-                    ['es', 'Spanish'],
-                    ['fr', 'French']
-                  ].map(([code, label]) => (
+                  {languageItems.map(([code, label]) => (
                     <li key={code}>
                       <button
                         type="button"
@@ -614,6 +610,7 @@ function Header({ page, showPage }) {
                 </ul>
               )}
             </div>
+
             <button
               className="grid h-8 w-8 place-items-center rounded-full text-navy transition hover:bg-taupe/15 hover:text-gold"
               type="button"
@@ -623,11 +620,40 @@ function Header({ page, showPage }) {
             >
               {theme === 'dark' ? <Sun size={17} /> : <Moon size={17} />}
             </button>
-            <button className="text-[13px] font-black text-navy" type="button" onClick={() => go('contact')}>
+
+            <button className="hidden text-[13px] font-black text-navy md:inline-flex" type="button" onClick={() => go('contact')}>
               {tx('Contact')} <span className="inline-block transition group-hover:translate-x-1">→</span>
+            </button>
+
+            <button
+              className="settle-burger grid h-10 w-10 place-items-center rounded-full border border-[rgba(174,160,140,.34)] bg-white/50 text-navy shadow-sm lg:hidden"
+              type="button"
+              onClick={() => {
+                setOpen((value) => !value);
+                setLanguageOpen(false);
+              }}
+              aria-label={tx('Open navigation')}
+              aria-expanded={open}
+            >
+              <Menu size={20} />
             </button>
           </div>
         </div>
+
+        {open && (
+          <div className="settle-mobile-menu mx-auto mb-3 mt-2 grid max-w-site gap-2 rounded-[22px] border border-[rgba(174,160,140,.22)] bg-white/78 p-2 shadow-[0_18px_42px_rgba(13,31,45,.12)] backdrop-blur-xl lg:hidden">
+            {navItems.map(([target, label]) => (
+              <button
+                key={target}
+                className={`rounded-full px-4 py-3 text-left text-sm font-extrabold transition ${page === target ? 'bg-navy text-white' : 'text-ink/70 hover:bg-white/75 hover:text-navy'}`}
+                type="button"
+                onClick={() => go(target)}
+              >
+                {tx(label)}
+              </button>
+            ))}
+          </div>
+        )}
       </header>
 
       <div className="nav-wave h-4 w-full overflow-hidden">
