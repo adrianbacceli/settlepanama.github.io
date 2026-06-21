@@ -144,14 +144,23 @@ textarea {
   stroke: rgba(174, 160, 140, .46);
   stroke-width: 1.1;
   stroke-dasharray: 22 18;
-  animation: tideLine 10s linear infinite;
+  animation-name: tideLine !important;
+  animation-duration: 10s !important;
+  animation-timing-function: linear !important;
+  animation-iteration-count: infinite !important;
+  animation-fill-mode: none !important;
 }
 
 .nav-wave-soft {
   stroke: rgba(122, 145, 129, .24);
   stroke-width: .9;
   stroke-dasharray: 120 42;
-  animation: tideLine 16s linear infinite reverse;
+  animation-name: tideLine !important;
+  animation-duration: 16s !important;
+  animation-timing-function: linear !important;
+  animation-direction: reverse !important;
+  animation-iteration-count: infinite !important;
+  animation-fill-mode: none !important;
 }
 
 @keyframes shoreCrash {
@@ -207,8 +216,15 @@ textarea {
 
 .nav-wave-main,
 .nav-wave-soft {
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
+  stroke: rgba(122, 145, 129, .24);
+  stroke-width: .9;
+  stroke-dasharray: 120 42;
+  animation-name: tideLine !important;
+  animation-duration: 16s !important;
+  animation-timing-function: linear !important;
+  animation-direction: reverse !important;
+  animation-iteration-count: infinite !important;
+  animation-fill-mode: none !important;
 }
 
 
@@ -233,11 +249,29 @@ textarea {
 }
 
 
-/* Nav button underline wave: keep the original movement, but play once only. */
+/* Nav button underline wave: play once and stop. */
 .nav-button:hover::before,
 .nav-button:hover::after,
 .nav-button.active::before,
 .nav-button.active::after {
   animation-iteration-count: 1 !important;
   animation-fill-mode: forwards !important;
+}
+
+/* Decorative navbar separator wave: keep running continuously. */
+.nav-wave-main {
+  animation-name: tideLine !important;
+  animation-duration: 10s !important;
+  animation-timing-function: linear !important;
+  animation-iteration-count: infinite !important;
+  animation-fill-mode: none !important;
+}
+
+.nav-wave-soft {
+  animation-name: tideLine !important;
+  animation-duration: 16s !important;
+  animation-timing-function: linear !important;
+  animation-direction: reverse !important;
+  animation-iteration-count: infinite !important;
+  animation-fill-mode: none !important;
 }
