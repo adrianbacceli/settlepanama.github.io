@@ -500,7 +500,7 @@ function ContactPage() {
         <div
           className="min-h-[360px] bg-cover bg-center lg:min-h-[calc(100vh-92px)]"
           style={{
-            backgroundImage: `linear-gradient(90deg, rgba(247,245,241,.62), rgba(247,245,241,.10)), url(${assets.mapCard})`
+            backgroundImage: `linear-gradient(90deg, rgba(247,245,241,.62), rgba(247,245,241,.10)), url(${assets.contact})`
           }}
           aria-label="Panama residential skyline"
         />

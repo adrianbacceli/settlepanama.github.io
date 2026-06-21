@@ -5,5 +5,6 @@ export const assets = {
   hero: assetUrl('assets/images/hero.webp'),
   living: assetUrl('assets/images/living.jpg'),
   mapCard: assetUrl('assets/images/map-card.jpg'),
-  relocateBg: assetUrl('assets/images/relocate-bg.jpg')
+  relocateBg: assetUrl('assets/images/relocate-bg.jpg'),
+  contact: assetUrl('assets/images/contact.jpg')
 };
