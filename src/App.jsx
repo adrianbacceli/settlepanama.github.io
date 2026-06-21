@@ -546,30 +546,44 @@ function AboutPage({ showPage }) {
 function AboutPanamaPage({ showPage }) {
   const panamaHighlights = [
     {
+      eyebrow: 'USD',
       title: 'Dollarized economy',
+      short: 'A familiar currency for daily life and planning.',
       text: 'The U.S. dollar circulates legally in Panama, offering familiarity and practical monetary stability for many International Residents.'
     },
     {
+      eyebrow: 'Visa',
       title: 'Residency options',
+      short: 'Several pathways for long-term living.',
       text: 'Panama offers different residency pathways for retirees, investors, professionals and families planning a long-term move.'
     },
     {
+      eyebrow: 'Hub',
       title: 'Global connectivity',
+      short: 'A strong base for travel and business.',
       text: 'With strong international flight connections, Panama makes it easier to travel frequently or stay connected to business and family abroad.'
     },
     {
+      eyebrow: 'Sun',
       title: 'Warm weather year-round',
+      short: 'Outdoor living, beaches and tropical days.',
       text: 'A tropical climate, access to beaches and outdoor living make Panama appealing for those seeking sunshine throughout the year.'
     },
     {
+      eyebrow: 'Cost',
       title: 'Competitive cost of living',
+      short: 'Lifestyle flexibility depending on the area.',
       text: 'Depending on the area and lifestyle, Panama can offer a more competitive cost of living than many North American or European markets.'
     },
     {
+      eyebrow: 'Life',
       title: 'Many ways to live',
+      short: 'City, beach, mountains or islands.',
       text: 'Choose between city life, beach towns, mountain communities or island settings based on your pace, goals and preferences.'
     }
   ];
+
+  const [activeHighlight, setActiveHighlight] = useState(panamaHighlights[0]);
 
   return (
     <section
@@ -582,21 +596,32 @@ function AboutPanamaPage({ showPage }) {
         <div className="about-panama-hero">
           <span className="eyebrow text-sand/80">About Panama</span>
           <h1 className="heading-xl text-white">Your new life in Panama starts here.</h1>
-          <p className="mx-auto max-w-[860px] text-lg leading-relaxed text-white/84">
+          <p className="about-panama-lead">
             Discover why thousands of expats, retirees, entrepreneurs, and investors choose Panama for its lifestyle, stability, connectivity, and endless opportunities.
           </p>
         </div>
 
-        <div className="about-panama-grid">
-          {panamaHighlights.map((item) => (
-            <article key={item.title} className="about-panama-card">
-              <span className="about-panama-card-dot" aria-hidden="true" />
-              <div>
-                <h2 className="about-panama-card-title">{item.title}</h2>
-                <p className="about-panama-card-text">{item.text}</p>
-              </div>
-            </article>
-          ))}
+        <div className="about-panama-explorer">
+          <div className="about-panama-spotlight">
+            <span className="about-panama-mini-label">{activeHighlight.eyebrow}</span>
+            <h2>{activeHighlight.title}</h2>
+            <p>{activeHighlight.text}</p>
+          </div>
+
+          <div className="about-panama-options" aria-label="Reasons to choose Panama">
+            {panamaHighlights.map((item) => (
+              <button
+                key={item.title}
+                className={`about-panama-option ${activeHighlight.title === item.title ? 'is-active' : ''}`}
+                type="button"
+                onClick={() => setActiveHighlight(item)}
+              >
+                <span className="about-panama-option-kicker">{item.eyebrow}</span>
+                <span className="about-panama-option-title">{item.title}</span>
+                <span className="about-panama-option-short">{item.short}</span>
+              </button>
+            ))}
+          </div>
         </div>
 
         <div className="about-panama-cta">
