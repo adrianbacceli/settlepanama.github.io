@@ -223,6 +223,10 @@ const translations = {
     "Call +507 6912-7505": "Llamar +507 6912-7505",
     "We answer until 12:00 AM Panama time": "Respondemos hasta las 12:00 AM hora de Panamá",
     "Contact us": "Contáctanos",
+    "Message": "Mensaje",
+    "Sending": "Enviando",
+    "Your message was sent. We will contact you soon.": "Tu mensaje fue enviado. Te contactaremos pronto.",
+    "Something went wrong. Please try WhatsApp or email us directly.": "Algo salió mal. Por favor intenta por WhatsApp o escríbenos directamente por email.",
     "Digital experience by SafeGuard CCS": "Experiencia digital por SafeGuard CCS",
     "Previous option": "Opción anterior",
     "Next option": "Siguiente opción",
@@ -358,6 +362,10 @@ const translations = {
     "Call +507 6912-7505": "Appeler le +507 6912-7505",
     "We answer until 12:00 AM Panama time": "Nous répondons jusqu’à 12:00 AM, heure du Panama",
     "Contact us": "Contactez-nous",
+    "Message": "Message",
+    "Sending": "Envoi",
+    "Your message was sent. We will contact you soon.": "Votre message a été envoyé. Nous vous contacterons bientôt.",
+    "Something went wrong. Please try WhatsApp or email us directly.": "Une erreur est survenue. Veuillez essayer WhatsApp ou nous écrire directement par e-mail.",
     "Digital experience by SafeGuard CCS": "Expérience digitale par SafeGuard CCS",
     "Previous option": "Option précédente",
     "Next option": "Option suivante",
@@ -1261,6 +1269,44 @@ function LandingInPanamaPage({ showPage }) {
 function ContactPage() {
   const { tx } = useLanguage();
   const { theme } = useTheme();
+  const [formStatus, setFormStatus] = useState('idle');
+
+  const WEB3FORMS_ACCESS_KEY = '8e2839ab-332b-4d87-b8a8-631e00dfe0a0';
+
+  const handleContactSubmit = async (event) => {
+    event.preventDefault();
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    if (!WEB3FORMS_ACCESS_KEY || WEB3FORMS_ACCESS_KEY === '8e2839ab-332b-4d87-b8a8-631e00dfe0a0') {
+      setFormStatus('error');
+      return;
+    }
+
+    setFormStatus('sending');
+
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          Accept: 'application/json'
+        }
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || 'Web3Forms request failed');
+      }
+
+      form.reset();
+      setFormStatus('success');
+    } catch (error) {
+      setFormStatus('error');
+    }
+  };
 
   return (
     <section className="contact-page min-h-[calc(100vh-92px)] bg-[#d8d8d8]">
@@ -1276,7 +1322,11 @@ function ContactPage() {
         />
 
         <div className="flex items-center justify-center px-8 py-16 lg:px-16">
-          <form className="w-full max-w-[560px]" onSubmit={(event) => event.preventDefault()}>
+          <form className="w-full max-w-[560px]" action="https://api.web3forms.com/submit" method="POST" onSubmit={handleContactSubmit}>
+            <input type="hidden" name="access_key" value={WEB3FORMS_ACCESS_KEY} />
+            <input type="hidden" name="subject" value="New Settle Panama contact request" />
+            <input type="hidden" name="from_name" value="Settle Panama Website" />
+            <input className="hidden" type="checkbox" name="botcheck" tabIndex="-1" autoComplete="off" />
             <span className="mb-3 block text-xs font-black uppercase tracking-[.14em] text-navy/65">{tx('Contact')}</span>
             <h1 className="mb-8 text-[clamp(32px,3.4vw,54px)] font-normal uppercase leading-[1.02] tracking-[.02em] text-navy">
               {tx('For more information,')}<br />
@@ -1303,11 +1353,28 @@ function ContactPage() {
                 {tx('Phone*')}
                 <input className="mt-2 block w-full border-0 border-b border-navy/55 bg-transparent px-0 py-2 text-sm text-navy outline-none transition placeholder:text-navy/35 focus:border-gold focus:ring-0" type="tel" name="phone" required />
               </label>
+
+              <label className="block text-xs font-medium text-navy/75">
+                {tx('Message')}
+                <textarea className="mt-2 block min-h-[104px] w-full resize-y border-0 border-b border-navy/55 bg-transparent px-0 py-2 text-sm text-navy outline-none transition placeholder:text-navy/35 focus:border-gold focus:ring-0" name="message" />
+              </label>
             </div>
 
-            <button className="mt-12 inline-flex min-w-[104px] items-center justify-center border border-gold px-8 py-3 text-xs font-black uppercase tracking-[.08em] text-gold transition hover:bg-gold hover:text-white" type="submit">
-              {tx('Send')}
+            <button
+              className="mt-12 inline-flex min-w-[104px] items-center justify-center border border-gold px-8 py-3 text-xs font-black uppercase tracking-[.08em] text-gold transition hover:bg-gold hover:text-white disabled:cursor-not-allowed disabled:opacity-60"
+              type="submit"
+              disabled={formStatus === 'sending'}
+            >
+              {formStatus === 'sending' ? tx('Sending') : tx('Send')}
             </button>
+
+            {formStatus === 'success' && (
+              <p className="mt-5 text-sm font-bold text-navy/75">{tx('Your message was sent. We will contact you soon.')}</p>
+            )}
+
+            {formStatus === 'error' && (
+              <p className="mt-5 text-sm font-bold text-red-700">{tx('Something went wrong. Please try WhatsApp or email us directly.')}</p>
+            )}
           </form>
         </div>
       </div>
