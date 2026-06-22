@@ -223,7 +223,8 @@ const translations = {
     "Call +507 6912-7505": "Llamar +507 6912-7505",
     "We answer until 12:00 AM Panama time": "Respondemos hasta las 12:00 AM hora de Panamá",
     "Contact us": "Contáctanos",
-    "Digital experience by SafeGuard CCS": "Experiencia digital por SafeGuard CCS"
+    "Digital experience by SafeGuard CCS": "Experiencia digital por SafeGuard CCS",
+    "Drag map": "Arrastra el mapa"
   },
   fr: {
     "English": "Anglais",
@@ -355,7 +356,8 @@ const translations = {
     "Call +507 6912-7505": "Appeler le +507 6912-7505",
     "We answer until 12:00 AM Panama time": "Nous répondons jusqu’à 12:00 AM, heure du Panama",
     "Contact us": "Contactez-nous",
-    "Digital experience by SafeGuard CCS": "Expérience digitale par SafeGuard CCS"
+    "Digital experience by SafeGuard CCS": "Expérience digitale par SafeGuard CCS",
+    "Drag map": "Faites glisser la carte"
   }
 
 };
@@ -699,6 +701,49 @@ function Hero({ showPage, scrollLandingSection }) {
 
 function LocationSection({ showPage }) {
   const { tx } = useLanguage();
+  const mapScrollRef = useRef(null);
+  const mapDragRef = useRef({
+    active: false,
+    startX: 0,
+    scrollLeft: 0
+  });
+
+  const startMapDrag = (event) => {
+    const scroller = mapScrollRef.current;
+    if (!scroller) return;
+
+    mapDragRef.current = {
+      active: true,
+      startX: event.clientX,
+      scrollLeft: scroller.scrollLeft
+    };
+
+    scroller.classList.add('is-dragging');
+
+    if (event.pointerId !== undefined) {
+      scroller.setPointerCapture(event.pointerId);
+    }
+  };
+
+  const moveMapDrag = (event) => {
+    const scroller = mapScrollRef.current;
+    if (!scroller || !mapDragRef.current.active) return;
+
+    const deltaX = event.clientX - mapDragRef.current.startX;
+    scroller.scrollLeft = mapDragRef.current.scrollLeft - deltaX;
+  };
+
+  const stopMapDrag = (event) => {
+    const scroller = mapScrollRef.current;
+    if (!scroller) return;
+
+    mapDragRef.current.active = false;
+    scroller.classList.remove('is-dragging');
+
+    if (event?.pointerId !== undefined && scroller.hasPointerCapture?.(event.pointerId)) {
+      scroller.releasePointerCapture(event.pointerId);
+    }
+  };
 
   return (
     <section className="section" id="location">
@@ -714,14 +759,30 @@ function LocationSection({ showPage }) {
           </button>
         </div>
 
-        <div
-          className="location-map-card relative min-h-[500px] overflow-hidden rounded-[34px] border border-[rgba(174,160,140,.22)] bg-cover bg-center shadow-soft"
-          style={{
-            backgroundImage: `linear-gradient(145deg, rgba(247,245,241,.34), rgba(13,31,45,.08)), url(${assets.mapCard})`
-          }}
-        >
-          <div className="location-map-overlay absolute inset-0 bg-warm/40 backdrop-grayscale" />
-          <div className="absolute right-[15%] top-[22%] z-20 grid h-[92px] w-[92px] place-items-center rounded-full border border-white/30 bg-navy/90 text-center text-xs font-black text-white shadow-lg backdrop-blur">Panama<br />City</div>
+        <div className="location-map-card relative min-h-[500px] overflow-hidden rounded-[34px] border border-[rgba(174,160,140,.22)] bg-warm shadow-soft">
+          <div
+            ref={mapScrollRef}
+            className="location-map-scroll h-full min-h-[500px] overflow-x-auto overflow-y-hidden"
+            onPointerDown={startMapDrag}
+            onPointerMove={moveMapDrag}
+            onPointerUp={stopMapDrag}
+            onPointerCancel={stopMapDrag}
+            onPointerLeave={stopMapDrag}
+          >
+            <div className="location-map-canvas relative h-[500px] min-w-[760px]">
+              <img
+                className="location-map-image h-full w-full object-cover"
+                src={assets.mapCard}
+                alt={tx('Residential property in Panama')}
+                draggable="false"
+              />
+              <div className="location-map-overlay absolute inset-0 bg-warm/40 backdrop-grayscale" />
+              <div className="absolute right-[15%] top-[22%] z-20 grid h-[92px] w-[92px] place-items-center rounded-full border border-white/30 bg-navy/90 text-center text-xs font-black text-white shadow-lg backdrop-blur">Panama<br />City</div>
+            </div>
+          </div>
+          <div className="location-map-drag-hint pointer-events-none absolute bottom-4 left-1/2 z-30 -translate-x-1/2 rounded-full border border-white/40 bg-navy/75 px-3 py-1.5 text-[11px] font-black text-white shadow-lg backdrop-blur md:hidden">
+            Drag map
+          </div>
         </div>
       </div>
     </section>

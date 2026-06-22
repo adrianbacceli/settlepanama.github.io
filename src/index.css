@@ -1205,3 +1205,87 @@ html[data-theme='dark'] .settle-mobile-menu button.bg-navy {
     max-height: none;
   }
 }
+
+
+/* Fixed draggable / pannable Location map */
+.location-map-card {
+  touch-action: pan-y;
+}
+
+.location-map-scroll {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  cursor: grab;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  touch-action: pan-x pan-y;
+  user-select: none;
+}
+
+.location-map-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.location-map-scroll.is-dragging {
+  cursor: grabbing;
+  scroll-behavior: auto;
+}
+
+.location-map-canvas {
+  height: 500px;
+  min-width: 100%;
+  transform: translateZ(0);
+}
+
+.location-map-image {
+  display: block;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+
+.location-map-overlay {
+  pointer-events: none;
+}
+
+.location-map-drag-hint {
+  animation: dragHintFade 2.4s ease-in-out infinite;
+}
+
+@media (max-width: 767px) {
+  .location-map-card {
+    min-height: 440px;
+  }
+
+  .location-map-scroll {
+    min-height: 440px;
+    touch-action: pan-x pan-y;
+  }
+
+  .location-map-canvas {
+    height: 440px;
+    min-width: 860px;
+  }
+
+  .location-map-canvas > div:not(.location-map-overlay) {
+    height: 78px;
+    width: 78px;
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 420px) {
+  .location-map-canvas {
+    min-width: 920px;
+  }
+}
+
+html[data-theme='dark'] .location-map-drag-hint {
+  background: rgba(13, 31, 45, .82) !important;
+  border-color: rgba(243, 236, 226, .28) !important;
+}
